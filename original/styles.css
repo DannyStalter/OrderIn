@@ -1,0 +1,16 @@
+body {
+  background-color: #f6f6f6;
+}
+
+.container {
+  background-color: #f6f6f6;
+  position: absolute;
+  left: 42%;
+  margin-top: 3rem;
+
+}
+
+.title {
+  position: relative;
+  text-align: center;
+}

@@ -1,0 +1,125 @@
+body {
+  /* background-color: #f6f6f6; */
+background-image: url(images/background.jpg);
+background-size: cover;
+}
+
+/* Navbar */
+.navbar {
+  /* background: rgba(0, 0, 0, 0.5); */
+  padding: 0 0 4rem;
+  margin: 1.5rem;
+}
+
+/* Welcome Box */
+
+.flexbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  justify-content: center;
+}
+
+.flexbox-item {
+  margin: 2rem;
+}
+
+.flex-welcomeHeading {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.button-container {
+  display: inline-block;
+  position: relative;
+  border: 3px solid #fff;
+  box-shadow: 15px 20px 8px rgba(0, 0, 0, 0.19);
+}
+
+.login-button {
+  position: absolute;
+  font-weight: 500;
+  top: 30%;
+  left: 43%;
+}
+
+.search-button {
+  position: absolute;
+  font-weight: 500;
+  top: 50%;
+  left: 42%;
+}
+
+#cutting-board {
+  max-width: 500px;
+  height: auto;
+}
+
+/* Menus */
+
+.flex-menus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 500px;
+  background-color: #f6f6f6;
+  margin: 1.5rem;
+  padding: 1rem;
+  box-shadow: 15px 20px 8px rgba(0, 0, 0, 0.19);
+}
+
+/* Footer */
+
+#footer {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+color: white;
+text-align: center;
+}
+
+
+/* Testing */
+.show-cart li {
+  display: flex;
+}
+.card {
+  margin-bottom: 20px;
+}
+.card-img-top {
+  width: 200px;
+  height: 200px;
+  align-self: center;
+}
+
+/* Adjusts cart to slide bottom-up not top-down */
+.animate-bottom {
+  position: relative;
+  animation: animatebottom 0.4s;
+}
+
+@keyframes animatebottom {
+  from {
+    bottom: -600px;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+/* Keeps cart to center of page */
+.modal.fade .modal-dialog {
+    -webkit-transform: translate(0,100%);
+    -ms-transform: translate(0,100%);
+    -o-transform: translate(0,100%);
+    transform: translate(0,100%);
+}
