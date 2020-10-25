@@ -40,7 +40,7 @@ background-size: cover;
   box-shadow: 15px 20px 8px rgba(0, 0, 0, 0.19);
 }
 
-.login-button {
+.login-button-home {
   position: absolute;
   font-weight: 500;
   top: 30%;
@@ -59,9 +59,9 @@ background-size: cover;
   height: auto;
 }
 
-/* Menus */
+/* Login Flexbox */
 
-.flex-menus {
+.flex-menus{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,6 +71,25 @@ background-size: cover;
   margin: 1.5rem;
   padding: 1rem;
   box-shadow: 15px 20px 8px rgba(0, 0, 0, 0.19);
+}
+
+/* Signup.php Button Stylings */
+
+.signup-button {
+margin-bottom: 12px;
+}
+
+/* Login.php Button Stylings */
+
+.login-button {
+  margin-bottom: 10px;
+}
+
+/* Error Text Styling */
+
+.error-text {
+  font-weight: 500;
+  color: red;
 }
 
 /* Footer */
@@ -98,6 +117,8 @@ text-align: center;
   align-self: center;
 }
 
+
+/* MODAL */
 /* Adjusts cart to slide bottom-up not top-down */
 .animate-bottom {
   position: relative;
@@ -115,11 +136,90 @@ text-align: center;
     opacity: 1;
   }
 }
-
 /* Keeps cart to center of page */
 .modal.fade .modal-dialog {
     -webkit-transform: translate(0,100%);
     -ms-transform: translate(0,100%);
     -o-transform: translate(0,100%);
     transform: translate(0,100%);
+}
+
+/* testing */
+/* Nav Layout */
+.flexbox-container-menuNav {
+  display: flex;
+  margin: 1rem 3rem 3rem;
+  background: white;
+  border: 3px solid black;
+}
+
+.menuNav-box {
+  margin-right: 20px;
+  margin-left: 20px;
+  font-weight: bold;
+  align-items: baseline;
+}
+
+.menuNav-box-name {}
+
+.menuNav-box-type {}
+
+.menuNav-box-time {
+  flex-grow: 2;
+}
+
+.menuNav-box-search {
+
+}
+
+.search-form {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.menuNav-box-cart {}
+
+.menuNav-p {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Menu Layout */
+.flexbox-container-menu {
+display: flex;
+margin: 1.5rem;
+/* background: white; */
+}
+
+.flexbox-container-aside {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-box {
+  margin: 10px;
+  border: 3px solid black;
+  padding: 10px;
+  background: white;
+  text-align: center;
+}
+
+.menu-box-menu {
+  width: 200px;
+  flex-grow: 0;
+}
+
+.menu-box-menu-items {
+  width: 200px;
+  flex-grow: 2;
+}
+
+.menu-box-cart-items {
+  width: 200px;
+  flex-grow: 0;
+}
+.menu-box-contact {
+
 }

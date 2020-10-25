@@ -24,7 +24,7 @@
   <div class="container-fluid">
 
     <nav class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="index.html">Untitled System</a>
+      <a class="navbar-brand" href="index.html">Order In</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -37,7 +37,7 @@
             <a class="nav-link" href="menu.html">Menus</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Cart</a>
+            <a class="nav-link" href="cart.html">Cart</a>
           </li>
         </ul>
       </div>
@@ -49,24 +49,22 @@
 
       <div class="flex-welcomeHeading">
         <div class="flexbox-item flexbox-welcome-1">
-          <h1 class="welcome-1-heading">Sign up with Untitled System.</h1>
+          <h1 class="welcome-1-heading">Sign up with Order In.</h1>
         </div>
       </div>
 
       <div class="flex-menus">
         <form action="/action_page.php">
           <!-- .php needs to be changed -->
-          <label for="userName">Select a username:</label><br>
-          <input type="text" id="userName" name="username" placeholder="Select a username here."><br><br>
-          <label for="password">Select a password:</label><br>
-          <input type="password" id="password" name="password" placeholder="Select a password here."><br><br>
-          <label for="firstName">Enter your first name:</label><br>
-          <input type="text" id="firstName" name="firstname" placeholder="Enter first name here."><br><br>
-          <label for="userName">Enter your last name:</label><br>
-          <input type="text" id="lastName" name="lastname" placeholder="Enter last name here."><br><br>
+          <label for="userName">Enter your full name:</label><br>
+          <input type="text" name="name" placeholder="Enter your full here."><br><br>
           <label for="email">Enter your email:</label><br>
-          <input type="text" id="email" name="email" placeholder="Enter email here."><br><br>
-          <button type="button" class="btn btn-dark signup-button">Sign Up</button>
+          <input type="text" name="email" placeholder="Enter email here."><br><br>
+          <label for="pwd">Select a password:</label><br>
+          <input type="password" name="pwd" placeholder="Select a password here."><br><br>
+          <label for="pwdconfirm">Re-enter your password:</label><br>
+          <input type="password" name="pwdconfirm" placeholder="Re-enter here."><br><br>
+          <button type="submit" class="btn btn-dark signup-button" name="submit">Sign Up</button>
         </form>
       </div>
 

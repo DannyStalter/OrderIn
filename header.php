@@ -1,9 +1,13 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
   <meta charset="utf-8">
-  <title>Login</title>
+  <title>Order In | Group 2 🍔</title>
 
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -17,6 +21,7 @@
 
 </head>
 
+
 <body>
 
   <!-- Nav Bar -->
@@ -24,55 +29,33 @@
   <div class="container-fluid">
 
     <nav class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="index.html">Order In</a>
+      <a class="navbar-brand" href="index.php">Order In</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+
+		  <?php
+		  if(isset($_SESSION["useremail"])) {
+			  echo "<li class='nav-item'><a class='nav-link' href='account.php'>My Account</a> </li>";
+			  echo " <li class='nav-item'><a class='nav-link' href='includes/logout-inc.php'>Log Out</a> </li>";
+		  }
+
+		  else {
+			  echo "<li class='nav-item'><a class='nav-link' href='signup.php'>Sign Up</a>";
+			  echo "<li class='nav-item'><a class='nav-link' href='login.php'>Login</a></li>";
+		  }
+		  ?>
+
           <li class="nav-item">
-            <a class="nav-link" href="login.html">Login</a>
+            <a class="nav-link" href="menu.php">Menu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="menu.html">Menus</a>
+            <a class="nav-link" href="cart.php">Cart</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="cart.html">Cart</a>
+
           </li>
         </ul>
       </div>
     </nav>
-
-    <!-- Login Box -->
-
-    <div class="flexbox-container">
-
-      <div class="flex-menus">
-        <form action="includes/login-inc.php">
-          <label for="menuItem">Email:</label><br>
-          <input type="text" id="userName" name="email" placeholder="Enter your email."><br><br>
-          <label for="itemPrice">Password:</label><br>
-          <input type="password" id="password" name="pwd" placeholder="Enter your password."><br><br>
-          <p>Don't have an account? <a href="signup.php">Sign up here.</a></p>
-          <button type="submit" name="submit">Log In</button>
-        </form>
-      </div>
-
-    </div>
-
-    <footer class="white-section" id="footer">
-
-      <div class="flexbox-container">
-        <i class="fab fa-twitter footer-icons"></i>
-        <i class="fab fa-facebook-f footer-icons"></i>
-        <i class="fab fa-instagram footer-icons"></i>
-        <i class="fas fa-envelope footer-icons"></i>
-
-        <p id="copyright">© Copyright 2020 Group 2</p>
-      </div>
-
-    </footer>
-
-</body>
-
-</html>
