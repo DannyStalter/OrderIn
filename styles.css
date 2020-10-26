@@ -180,6 +180,7 @@ text-align: center;
 
 .menuNav-box-cart {}
 
+/* Centers Menu.php's nav text in middle of nav bar */
 .menuNav-p {
   position: relative;
   top: 50%;
@@ -187,6 +188,7 @@ text-align: center;
 }
 
 /* Menu Layout */
+
 .flexbox-container-menu {
 display: flex;
 margin: 1.5rem;
@@ -211,9 +213,8 @@ margin: 1.5rem;
   flex-grow: 0;
 }
 
-.menu-box-menu-items {
-  width: 200px;
-  flex-grow: 2;
+.menu-title-box {
+  align-self: stretch;
 }
 
 .menu-box-cart-items {
@@ -221,5 +222,79 @@ margin: 1.5rem;
   flex-grow: 0;
 }
 .menu-box-contact {
+}
+
+/* Below flex contains "Menu Items header + food items" */
+.menu-box-menu-items {
+
+  flex-grow: 2;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Menu-Items.php stylings */
+/* Food Items */
+
+.menu-items-inner-flexbox {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-weight: bold;
+  align-self: center;
 
 }
+
+/* Adjusts the specific food item's css */
+.menu-inner-items {
+  /* border: 3px solid black; */
+  margin: 6px;
+  padding: 6px;
+}
+
+.message_box .box{
+ margin: 10px 0px;
+ border: 1px solid #2b772e;
+ text-align: center;
+ font-weight: bold;
+ color: #2b772e;
+}
+
+.cart-icon {
+  width: 35px;
+  height: 35px;
+}
+
+.cart_div {
+ float:right;
+ font-weight:bold;
+ position:relative;
+ top: 50%;
+ transform: translateY(-50%);
+ }
+.cart_div a {
+ color:#000;
+ }
+.cart_div span {
+ font-size: 12px;
+ line-height: 14px;
+ background: #F68B1E;
+ padding: 2px;
+ border: 2px solid #fff;
+ border-radius: 50%;
+ position: absolute;
+ top: -1px;
+ left: 13px;
+ color: #fff;
+ width: 20px;
+ height: 20px;
+ text-align: center;
+ }
+
+ /* Cart Table */
+ .table td {
+  border-bottom: #F0F0F0 1px solid;
+  padding: 10px;
+  }

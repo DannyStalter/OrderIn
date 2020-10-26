@@ -28,9 +28,19 @@ include_once 'header.php';
     <h3>Menu</h3>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis quisquam, doloribus ipsa excepturi quos. Eum id eligendi nobis ea, inventore veniam error saepe at debitis rerum reprehenderit, unde tempora. Quasi?</p>
   </div>
+
+
   <div class="menu-box menu-box-menu-items">
-    <h3>Menu Items</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis quisquam, doloribus ipsa excepturi quos. Eum id eligendi nobis ea, inventore veniam error saepe at debitis rerum reprehenderit, unde tempora. Quasi?</p>
+    <h3 class="menu-title-box">Menu Items</h3>
+
+    <?php
+    include_once 'menu-items.php';
+    ?>
+    <div style="clear:both;"></div>
+
+    <div class="message_box" style="margin:10px 0px;">
+    <?php echo $status; ?>
+    </div>
   </div>
 
   <div class="flexbox-container-aside">

@@ -1,78 +1,117 @@
 <?php
-include_once 'header.php';
+session_start();
+$status="";
+if (isset($_POST['action']) && $_POST['action']=="remove"){
+if(!empty($_SESSION["shopping_cart"])) {
+    foreach($_SESSION["shopping_cart"] as $key => $value) {
+      //unset($_SESSION)..had been within if statement below but did not work. Now it empties entire cart.
+      unset($_SESSION["shopping_cart"][$key]);
+      if($_POST["code"] == $key){
+
+        // unset statement was here
+      $status = "<div class='box' style='color:red;'>
+      Item has been removed from your cart!</div>";
+      }
+      if(empty($_SESSION["shopping_cart"]))
+      unset($_SESSION["shopping_cart"]);
+      }
+}
+}
+
+if (isset($_POST['action']) && $_POST['action']=="change"){
+  foreach($_SESSION["shopping_cart"] as &$value){
+    if($value['code'] === $_POST["code"]){
+        $value['quantity'] = $_POST["quantity"];
+        break; // Stop the loop after we've found the product
+    }
+}
+
+}
 ?>
 
-<!-- Cart Buttons Navbar -->
-<nav class="navbar navbar-inverse bg-inverse fixed-bottom bg-faded">
-    <div class="row">
-        <div class="col">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button><button class="clear-cart btn btn-danger">Clear Cart</button></div>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cart</title>
+  </head>
+  <body>
+
+
+    <div class="cart">
+    <?php
+    if(isset($_SESSION["shopping_cart"])){
+        $total_price = 0;
+    ?>
+    <table class="table">
+    <tbody>
+    <tr>
+    <td></td>
+    <td>ITEM NAME</td>
+    <td>QUANTITY</td>
+    <td>UNIT PRICE</td>
+    <td>ITEMS TOTAL</td>
+    </tr>
+    <?php
+    foreach ($_SESSION["shopping_cart"] as $product){
+    ?>
+    <tr>
+    <td>
+    <img src='<?php echo $product["image"]; ?>' width="50" height="40" />
+    </td>
+    <td><?php echo $product["name"]; ?><br />
+    <form method='post' action=''>
+    <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
+    <input type='hidden' name='action' value="remove" />
+    <button type='submit' class='remove'>Remove Item</button>
+    </form>
+    </td>
+    <td>
+    <form method='post' action=''>
+    <input type='hidden' name='code' value="<?php echo $product["code"]; ?>" />
+    <input type='hidden' name='action' value="change" />
+    <select name='quantity' class='quantity' onChange="this.form.submit()">
+    <option <?php if($product["quantity"]==1) echo "selected";?>
+    value="1">1</option>
+    <option <?php if($product["quantity"]==2) echo "selected";?>
+    value="2">2</option>
+    <option <?php if($product["quantity"]==3) echo "selected";?>
+    value="3">3</option>
+    <option <?php if($product["quantity"]==4) echo "selected";?>
+    value="4">4</option>
+    <option <?php if($product["quantity"]==5) echo "selected";?>
+    value="5">5</option>
+    </select>
+    </form>
+    </td>
+    <td><?php echo "$".$product["price"]; ?></td>
+    <td><?php echo "$".$product["price"]*$product["quantity"]; ?></td>
+    </tr>
+    <?php
+    $total_price += ($product["price"]*$product["quantity"]);
+    }
+    ?>
+    <tr>
+    <td colspan="5" align="right">
+    <strong>TOTAL: <?php echo "$".$total_price; ?></strong>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+      <?php
+    }else{
+     echo "<h3>Your cart is empty.</h3>";
+     }
+    ?>
     </div>
-</nav>
 
+    <div style="clear:both;"></div>
 
-<!-- Main -->
-<div class="container">
-    <div class="row">
-      <div class="col">
-        <div class="card" style="width: 20rem;">
-  <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
-  <div class="card-block">
-    <h4 class="card-title">Orange</h4>
-    <p class="card-text">Price: $0.5</p>
-    <a href="#" data-name="Orange" data-price="0.5" class="add-to-cart btn btn-primary">Add to cart</a>
-  </div>
-</div>
-      </div>
-      <div class="col">
-        <div class="card" style="width: 20rem;">
-  <img class="card-img-top" src="http://images.all-free-download.com/images/graphicthumb/vector_illustration_of_ripe_bananas_567893.jpg" alt="Card image cap">
-  <div class="card-block">
-    <h4 class="card-title">Banana</h4>
-    <p class="card-text">Price: $1.22</p>
-    <a href="#" data-name="Banana" data-price="1.22" class="add-to-cart btn btn-primary">Add to cart</a>
-  </div>
-</div>
-      </div>
-      <div class="col">
-        <div class="card" style="width: 20rem;">
-  <img class="card-img-top" src="https://3.imimg.com/data3/IC/JO/MY-9839190/organic-lemon-250x250.jpg" alt="Card image cap">
-  <div class="card-block">
-    <h4 class="card-title">Lemon</h4>
-    <p class="card-text">Price: $5</p>
-    <a href="#" data-name="Lemon" data-price="5" class="add-to-cart btn btn-primary">Add to cart</a>
-  </div>
-</div>
-      </div>
+    <div class="message_box" style="margin:10px 0px;">
+    <?php echo $status; ?>
     </div>
-</div>
 
+    <button type="button" onclick="location.href='menu.php';"</i>Return</button>
 
- <!--Cart Modal -->
-<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content animate-bottom">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <table class="show-cart table">
-
-        </table>
-        <div>Total price: $<span class="total-cart"></span></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Order now</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="cart.js"></script>
-</body>
+  </body>
 </html>
