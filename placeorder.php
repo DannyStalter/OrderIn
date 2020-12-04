@@ -4,7 +4,6 @@ defined('orderinsystem') or exit;
 // Remove all the items in cart, no longer needed as the order has been processed
 unset($_SESSION['cart']);
 ?>
-
 <?=template_header('Place Order')?>
 
 <?php if ($error): ?>

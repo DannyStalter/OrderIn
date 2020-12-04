@@ -21,6 +21,7 @@ if (document.querySelector(".item-img-small")) {
 if (document.querySelector(".items-form")) {
     document.querySelector(".sortby select").onchange = () => document.querySelector(".items-form").submit();
     document.querySelector(".category select").onchange = () => document.querySelector(".items-form").submit();
+    document.querySelector(".restaurant select").onchange = () => document.querySelector(".items-form").submit();
 }
 if (document.querySelector(".item #item-form")) {
     document.querySelectorAll(".item #item-form select").forEach(ele => {

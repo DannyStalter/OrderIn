@@ -40,6 +40,7 @@ function template_header($title) {
 $num_items_in_cart = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 $site_name = site_name;
 $admin_link = isset($_SESSION['account_loggedin']) && $_SESSION['account_admin'] ? '<a href="admin/index.php" target="_blank">Admin</a>' : '';
+$manager_link = isset($_SESSION['account_loggedin']) && $_SESSION['account_rID'] ? '<a href="manager/index.php" target="_blank">Manager</a>' : '';
 $logout_link = isset($_SESSION['account_loggedin']) ? '<a title="Logout" href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i></a>' : '';
 echo <<<EOT
 <!DOCTYPE html>
@@ -61,6 +62,7 @@ echo <<<EOT
                     <a href="index.php?page=items">Items</a>
 					<a href="index.php?page=myaccount">My Account</a>
                     $admin_link
+                    $manager_link
                 </nav>
                 <div class="link-icons">
                     <div class="search">
@@ -124,10 +126,9 @@ echo <<<EOT
             <a href="index.php?page=orders"><i class="fas fa-shopping-cart"></i>Orders</a>
             <a href="index.php?page=items"><i class="fas fa-box-open"></i>Items</a>
             <a href="index.php?page=categories"><i class="fas fa-list"></i>Categories</a>
+            <a href="index.php?page=restaurants"><i class="fas fa-list"></i>Restaurants</a>
             <a href="index.php?page=accounts"><i class="fas fa-users"></i>Accounts</a>
             <a href="index.php?page=images"><i class="fas fa-images"></i>Upload Images</a>
-            <a href="index.php?page=emailtemplates"><i class="fas fa-envelope"></i>Email Templates</a>
-            <a href="index.php?page=settings"><i class="fas fa-tools"></i>Settings</a>
             <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i>Log Out</a>
         </aside>
         <main class="responsive-width-100">
@@ -148,4 +149,50 @@ echo <<<EOT
 </html>
 EOT;
 }
+// Template manager header
+function template_manager_header($title) {
+    echo <<<EOT
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,minimum-scale=1">
+            <title>$title</title>
+            <link rel="icon" type="image/png" href="../favicon.png">
+            <link href="manager.css" rel="stylesheet" type="text/css">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        </head>
+        <body class="manager">
+            <header>
+                <h1>Order IN Manager</h1>
+                <a class="responsive-toggle" href="#">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </header>
+            <aside class="responsive-width-100 responsive-hidden">
+                <a href="index.php?page=orders"><i class="fas fa-shopping-cart"></i>Orders</a>
+                <a href="index.php?page=items"><i class="fas fa-box-open"></i>Items</a>
+                <a href="index.php?page=images"><i class="fas fa-images"></i>Upload Images</a>
+                <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i>Log Out</a>
+            </aside>
+            <main class="responsive-width-100">
+    EOT;
+    }
+
+// Template manager footer
+function template_manager_footer() {
+    echo <<<EOT
+            </main>
+            <script>
+            document.querySelector(".responsive-toggle").onclick = function(event) {
+                event.preventDefault();
+                let aside_display = document.querySelector("aside").style.display;
+                document.querySelector("aside").style.display = aside_display == "flex" ? "none" : "flex";
+            };
+            </script>
+        </body>
+    </html>
+    EOT;
+    }
+
 ?>

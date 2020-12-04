@@ -14,6 +14,7 @@ if (isset($_POST['login'], $_POST['email'], $_POST['password']) && filter_var($_
         $_SESSION['account_loggedin'] = TRUE;
         $_SESSION['account_id'] = $account['id'];
         $_SESSION['account_admin'] = $account['admin'];
+        $_SESSION['account_rID'] = $account['rID'];
         $items_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
         if ($items_in_cart) {
             // user has items in cart, redirect them to the checkout page
@@ -52,6 +53,7 @@ if (isset($_POST['register'], $_POST['email'], $_POST['password'], $_POST['cpass
         $_SESSION['account_loggedin'] = TRUE;
         $_SESSION['account_id'] = $account_id;
         $_SESSION['account_admin'] = 0;
+        $_SESSION['account_rID'] = 0;
         $items_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
         if ($items_in_cart) {
             // User has items in cart, redirect them to the checkout page
@@ -70,12 +72,12 @@ if (isset($_SESSION['account_loggedin'])) {
         i.img AS img,
         i.name AS name,
         t.created AS transaction_date,
-        ti.txnitem_price AS price,
-        ti.txnitem_quantity AS quantity
+        ti.item_price AS price,
+        ti.item_quantity AS quantity
         FROM transactions t
         JOIN transactions_items ti ON ti.txn_id = t.txn_id
         JOIN accounts a ON a.id = t.account_id
-        JOIN items i ON i.id = ti.txnitem_id
+        JOIN items i ON i.id = ti.item_id
         WHERE t.account_id = ?
         ORDER BY t.created DESC');
     $stmt->execute([ $_SESSION['account_id'] ]);

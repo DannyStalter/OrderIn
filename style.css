@@ -22,6 +22,7 @@ body {
   /* Same height as footer */
 }
 
+
 h1, h2, h3, h4, h5 {
   color: white;
 }
@@ -47,7 +48,7 @@ header .content-wrapper {
 }
 
 html header h1 {
-  font-family: Rockwell, Courier Bold, Courier, Georgia, Times, Times New Roman, serif;
+  font-family: Courier Bold, Courier, Georgia, Times, Times New Roman, serif;
   display: flex;
   flex-grow: 1;
   flex-basis: 0;
@@ -156,7 +157,7 @@ main .featured h2 {
   display: inline-block;
   margin: 0;
   width: 1050px;
-  font-family: Rockwell, Courier Bold, Courier, Georgia, Times, Times New Roman, serif;
+  font-family: Courier Bold, Courier, Georgia, Times, Times New Roman, serif;
   font-size: 68px;
   color: #FFFFFF;
   padding-bottom: 10px;
@@ -327,14 +328,14 @@ main > .items .items-header {
   align-items: center;
   padding-bottom: 40px;
   background-color:rgba(255, 255, 255, 0.92);
+  color: black;
 }
 
 main > .items .items-header p {
-  color: black;
   margin: 0;
 }
 
-html main > .items .items-header label {
+main > .items .items-header label {
   padding-left: 20px;
   padding-top: 8px;
   color: black;
@@ -361,7 +362,7 @@ main > .items .buttons a {
   margin-left: 5px;
   padding: 12px 20px;
   border: 0;
-  background: #4e5c70;
+  background: #CC796A;
   color: #FFFFFF;
   font-size: 14px;
   font-weight: bold;
@@ -369,7 +370,7 @@ main > .items .buttons a {
 }
 
 main > .items .buttons a:hover {
-  background: #434f61;
+  background: #AB6559;
 }
 
 main .cart h1, main .myaccount h1 {

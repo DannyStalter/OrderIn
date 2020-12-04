@@ -39,6 +39,7 @@ function addItemImages($pdo, $item_id) {
         }
     }
 }
+
 // Add item categories to the database*****
 function addItemCategories($pdo, $item_id) {
     if (isset($_POST['categories_list'])) {
@@ -53,6 +54,7 @@ function addItemCategories($pdo, $item_id) {
         }
     }
 }
+
 
 // Add item restaurant to the database*****
 function addItemRestaurants($pdo, $item_id, $restaurant_id) {
@@ -109,6 +111,7 @@ if (isset($_GET['id'])) {
         header('Location: index.php?page=items');
         exit;
     }
+
     // Get the item and its images from the database
     $stmt = $pdo->prepare('SELECT i.*, GROUP_CONCAT(ii.img) AS imgs FROM items i LEFT JOIN items_images ii ON i.id = ii.item_id WHERE i.id = ? GROUP BY i.id');
     $stmt->execute([ $_GET['id'] ]);
@@ -147,7 +150,7 @@ if (isset($_GET['id'])) {
 }
 ?>
 
-<?=template_admin_header($page . ' Item')?>
+<?=template_manager_header($page . ' Item')?>
 
 <h2><?=$page?> Item</h2>
 
@@ -169,23 +172,6 @@ if (isset($_GET['id'])) {
 
         <label for="date">Date Added</label>
         <input type="datetime-local" name="date" placeholder="Date" value="<?=date('Y-m-d\TH:i:s', strtotime($item['date_added']))?>" required>
-
-        <label for="add_restaurants">Restaurants</label>
-        <div style="display:flex;flex-flow:wrap;">
-            <select name="add_restaurants" id="add_restaurants" style="width:50%;" multiple>
-                <?php foreach ($restaurants as $rest): ?>
-                <option value="<?=$rest['id']?>"><?=$rest['name']?></option>
-                <?php endforeach; ?>
-            </select>
-            <select name="restaurants" style="width:50%;" multiple>
-                <?php foreach ($item['restaurants'] as $rest): ?>
-                <option value="<?=$rest['id']?>"><?=$rest['name']?></option>
-                <?php endforeach; ?>
-            </select>
-            <button id="add_selected_restaurants" style="width:50%;">Add</button>
-            <button id="remove_selected_restaurants" style="width:50%;">Remove</button>
-            <input type="hidden" name="restaurants_list" value="<?=implode(',', array_column($item['restaurants'], 'id'))?>">
-        </div>
 
         <label for="add_categories">Categories</label>
         <div style="display:flex;flex-flow:wrap;">
@@ -297,31 +283,6 @@ document.querySelector("#add_option").onclick = function(e) {
             list.push(option.value);
         }
         document.querySelector("input[name='options']").value = list.join(",");
-    });
-};
-
-document.querySelector("#remove_selected_restaurants").onclick = function(e) {
-    e.preventDefault();
-    document.querySelectorAll("select[name='restaurants'] option").forEach(function(option) {
-        if (option.selected) {
-            let list = document.querySelector("input[name='restaurants_list']").value.split(",");
-            list.splice(list.indexOf(option.value), 1);
-            document.querySelector("input[name='restaurants_list']").value = list.join(",");
-            option.remove();
-        }
-    });
-};
-document.querySelector("#add_selected_restaurants").onclick = function(e) {
-    e.preventDefault();
-    document.querySelectorAll("select[name='add_restaurants'] option").forEach(function(option) {
-        if (option.selected) {
-            let list = document.querySelector("input[name='restaurants_list']").value.split(",");
-            if (!list.includes(option.value)) {
-                list.push(option.value);
-            }
-            document.querySelector("input[name='restaurants_list']").value = list.join(",");
-            document.querySelector("select[name='restaurants']").add(option.cloneNode(true));
-        }
     });
 };
 

@@ -12,12 +12,17 @@ $stmt = $pdo->prepare('SELECT
     FROM transactions t
     JOIN transactions_items ti ON ti.txn_id = t.txn_id
     JOIN items i ON i.id = ti.item_id
+    JOIN items_restaurants ir ON ir.restaurant_id = :restaurant_id AND ir.item_id = i.id JOIN restaurants r ON r.id = ir.restaurant_id
     ORDER BY t.created DESC');
+
+$restaurant = isset($_SESSION['account_rID']) ? $_SESSION['account_rID'] : '';
+$stmt->bindValue(':restaurant_id', $restaurant, PDO::PARAM_INT);
+
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<?=template_admin_header('Orders')?>
+<?=template_manager_header('Orders')?>
 
 <h2>Orders</h2>
 

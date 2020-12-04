@@ -1,12 +1,14 @@
 <?php
 defined('admin') or exit;
 // SQL query to get all items from the "items" table
-$stmt = $pdo->prepare('SELECT i.*, GROUP_CONCAT(ii.img) AS imgs FROM items i LEFT JOIN items_images ii ON i.id = ii.item_id GROUP BY i.id ORDER BY i.date_added ASC');
+$restaurant = isset($_SESSION['account_rID']) ? $_SESSION['account_rID'] : '';
+$stmt = $pdo->prepare('SELECT i.*, GROUP_CONCAT(ii.img) AS imgs FROM items i LEFT JOIN items_images ii ON i.id = ii.item_id JOIN items_restaurants ir ON ir.restaurant_id = :restaurant_id AND ir.item_id = i.id JOIN restaurants r ON r.id = ir.restaurant_id GROUP BY i.id ORDER BY i.date_added ASC');
+$stmt->bindValue(':restaurant_id', $restaurant, PDO::PARAM_INT);
 $stmt->execute();
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<?=template_admin_header('Items')?>
+<?=template_manager_header('Items')?>
 
 <h2>Items</h2>
 
@@ -53,4 +55,4 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<?=template_admin_footer()?>
+<?=template_manager_footer()?>

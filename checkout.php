@@ -107,7 +107,7 @@ if (isset($_POST['first_name'], $_POST['last_name'], $_POST['address_street'], $
             $order_id = $pdo->lastInsertId();
             foreach ($items_in_cart as $item) {
                 // For every item in the shopping cart insert a new transaction into our database
-                $stmt = $pdo->prepare('INSERT INTO transactions_items (txn_id, txnitem_id, txnitem_price, txnitem_quantity, txnitem_options) VALUES (?,?,?,?,?)');
+                $stmt = $pdo->prepare('INSERT INTO transactions_items (txn_id, item_id, item_price, item_quantity, item_options) VALUES (?,?,?,?,?)');
                 $stmt->execute([ $transaction_id, $item['id'], $item['options_price'] > 0 ? $item['options_price'] : $item['meta']['price'], $item['quantity'], $item['options'] ]);
                 // Update item quantity in the items table
                 $stmt = $pdo->prepare('UPDATE items SET quantity = quantity - ? WHERE quantity > 0 AND id = ?');
@@ -247,12 +247,8 @@ $countries = array("Afghanistan", "Albania", "Algeria", "American Samoa", "Andor
         </select>
 
         <button type="submit" name="checkout">Place Order</button>
-/****** */
-        <?php if (strtolower(paypal_enabled) == 'true'): ?>
-        <div class="paypal">
-            <button type="submit" name="paypal"><img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="PayPal Logo"></button>
-        </div>
-        <?php endif; ?>
+
+
 
     </form>
 

@@ -180,10 +180,8 @@ if ($items_in_cart) {
         </table>
 
         <div class="subtotal">
-            <div class="subtotal-white-box">
-              <span class="text">Subtotal</span>
-              <span class="price"><?=currency_code?><?=number_format($subtotal,2)?></span>
-            </div>
+            <span class="text">Subtotal</span>
+            <span class="price"><?=currency_code?><?=number_format($subtotal,2)?></span>
         </div>
 
         <div class="buttons">
