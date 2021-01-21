@@ -1,0 +1,1 @@
+Senior Capstone Project - Dec, 2020. Worked with a small team to create a fully-functioning web-based food ordering system. Allows for customer, manager and admin logins, each with different levels of administrative privlages. Currently working to deploying the site to be able to view remotely.
