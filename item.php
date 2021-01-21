@@ -1,30 +1,23 @@
 <?php
-// Prevent direct access to file
+
 defined('orderinsystem') or exit;
-// Check to make sure the id parameter is specified in the URL
+
 if (isset($_GET['id'])) {
-    // Prepare statement and execute, prevents SQL injection
     $stmt = $pdo->prepare('SELECT * FROM items WHERE id = ?');
     $stmt->execute([ $_GET['id'] ]);
-    // Fetch the item from the database and return the result as an Array
+
     $item = $stmt->fetch(PDO::FETCH_ASSOC);
-    // Check if the item exists (array is not empty)
+
     if (!$item) {
-        // Simple error to display if the id for the item doesn't exists (array is empty)
         $error = 'Item does not exist!';
     }
-    // Select the item images (if any) from the items_images table
     $stmt = $pdo->prepare('SELECT * FROM items_images WHERE item_id = ?');
     $stmt->execute([ $_GET['id'] ]);
-    // Fetch the item images from the database and return the result as an Array
     $item_imgs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // Select the item options (if any) from the items_options table
     $stmt = $pdo->prepare('SELECT title, GROUP_CONCAT(name) AS options, GROUP_CONCAT(price) AS prices FROM items_options WHERE item_id = ? GROUP BY title');
     $stmt->execute([ $_GET['id'] ]);
-    // Fetch the item options from the database and return the result as an Array
     $item_options = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    // Simple error to display if the id wasn't specified
     $error = 'item does not exist!';
 }
 ?>

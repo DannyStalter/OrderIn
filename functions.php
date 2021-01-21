@@ -1,15 +1,13 @@
 <?php
-// Function that will connect to the MySQL database
+
 function pdo_connect_mysql() {
     try {
-        // Connect to the MySQL database using PDO...
     	return new PDO('mysql:host=' . db_host . ';dbname=' . db_name . ';charset=utf8', db_user, db_pass);
     } catch (PDOException $exception) {
-    	// Could not connect to the MySQL database, if this error occurs make sure you check your db settings are correct!
     	exit('Failed to connect to database!');
     }
 }
-// Function to retrieve a item from cart by the ID and options string
+
 function &get_cart_item($id, $options) {
     $p = null;
     if (isset($_SESSION['cart'])) {
@@ -22,21 +20,9 @@ function &get_cart_item($id, $options) {
     }
     return $p;
 }
-// Send order details email function
-function send_order_details_email($email, $items, $first_name, $last_name, $address_street, $address_city, $address_state, $address_zip, $address_country, $subtotal, $order_id) {
-    if (mail_enabled != 'true') {
-        return;
-    }
-	$subject = 'Order Details';
-	$headers = 'From: ' . mail_from . "\r\n" . 'Reply-To: ' . mail_from . "\r\n" . 'Return-Path: ' . mail_from . "\r\n" . 'X-Mailer: PHP/' . phpversion() . "\r\n" . 'MIME-Version: 1.0' . "\r\n" . 'Content-Type: text/html; charset=UTF-8' . "\r\n";
-    ob_start(); /*********** */
-    include 'order-details-template.php';
-    $order_details_template = ob_get_clean();
-	mail($email, $subject, $order_details_template, $headers);
-}
-// Template header, feel free to customize this
+
+
 function template_header($title) {
-// Get the amount of items in the shopping cart, this will be displayed in the header.
 $num_items_in_cart = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 $site_name = site_name;
 $admin_link = isset($_SESSION['account_loggedin']) && $_SESSION['account_admin'] ? '<a href="admin/index.php" target="_blank">Admin</a>' : '';
@@ -56,7 +42,7 @@ echo <<<EOT
 	<body>
         <header>
             <div class="content-wrapper">
-                <h1>$site_name</h1>
+            <h1><a class='site-name' href="index.php">$site_name</a></h1>
                 <nav>
                     <a href="index.php">Home</a>
                     <a href="index.php?page=items">Items</a>
@@ -83,7 +69,6 @@ echo <<<EOT
         <main>
 EOT;
 }
-// Template footer
 function template_footer() {
 $year = date('Y');
 $currency_code = currency_code;
@@ -102,7 +87,7 @@ echo <<<EOT
 </html>
 EOT;
 }
-// Template admin header
+
 function template_admin_header($title) {
 echo <<<EOT
 <!DOCTYPE html>
@@ -134,7 +119,7 @@ echo <<<EOT
         <main class="responsive-width-100">
 EOT;
 }
-// Template admin footer
+
 function template_admin_footer() {
 echo <<<EOT
         </main>
@@ -149,7 +134,7 @@ echo <<<EOT
 </html>
 EOT;
 }
-// Template manager header
+
 function template_manager_header($title) {
     echo <<<EOT
     <!DOCTYPE html>
@@ -171,6 +156,7 @@ function template_manager_header($title) {
             </header>
             <aside class="responsive-width-100 responsive-hidden">
                 <a href="index.php?page=orders"><i class="fas fa-shopping-cart"></i>Orders</a>
+                <a href="index.php?page=status"><i class="fas fa-shopping-cart"></i>Status</a>
                 <a href="index.php?page=items"><i class="fas fa-box-open"></i>Items</a>
                 <a href="index.php?page=images"><i class="fas fa-images"></i>Upload Images</a>
                 <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i>Log Out</a>
@@ -179,7 +165,7 @@ function template_manager_header($title) {
     EOT;
     }
 
-// Template manager footer
+
 function template_manager_footer() {
     echo <<<EOT
             </main>

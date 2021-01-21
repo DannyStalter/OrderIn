@@ -1,6 +1,6 @@
 <?php
 defined('admin') or exit;
-// Default input item values
+
 $item = array(
     'name' => '',
     'desc' => '',
@@ -9,6 +9,7 @@ $item = array(
     'date_added' => date('Y-m-d\TH:i:s'),
     'img' => '',
     'imgs' => '',
+    'time' => '',
     'categories' => array(),
     'options' => array(),
     'options_string' => ''
@@ -23,9 +24,9 @@ $stmt = $pdo->query('SELECT * FROM restaurants');
 $stmt->execute();
 $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Get all the images from the "imgs" directory
+// Get all the images from the "imgs" folder
 $imgs = glob('../imgs/*.{jpg,png,gif,jpeg,webp}', GLOB_BRACE);
-// Add item images to the database*****
+
 function addItemImages($pdo, $item_id) {
     if (isset($_POST['images_list'])) {
         $images_list = explode(',', $_POST['images_list']);
@@ -40,7 +41,7 @@ function addItemImages($pdo, $item_id) {
     }
 }
 
-// Add item categories to the database*****
+
 function addItemCategories($pdo, $item_id) {
     if (isset($_POST['categories_list'])) {
         $list = explode(',', $_POST['categories_list']);
@@ -56,14 +57,14 @@ function addItemCategories($pdo, $item_id) {
 }
 
 
-// Add item restaurant to the database*****
+
 function addItemRestaurants($pdo, $item_id, $restaurant_id) {
     $stmt = $pdo->prepare('INSERT IGNORE INTO items_restaurants (item_id,restaurant_id) VALUES (?,?)');
     $stmt->execute([ $item_id, $restaurant_id ]);
 }
 $restaurant = isset($_SESSION['account_rID']) ? $_SESSION['account_rID'] : '';
 $stmt->bindValue(':restaurant_id', $restaurant, PDO::PARAM_INT);
-// Add item options to the database
+
 function addItemOptions($pdo, $item_id) {
     if (isset($_POST['options'])) {
         $list = explode(',', $_POST['options']);
@@ -91,40 +92,39 @@ function addItemOptions($pdo, $item_id) {
     }
 }
 if (isset($_GET['id'])) {
-    // ID param exists, edit an existing item
     $page = 'Edit';
     if (isset($_POST['submit'])) {
-        // Update the item
-        $stmt = $pdo->prepare('UPDATE items SET name = ?, `desc` = ?, price = ?, quantity = ?, img = ?, date_added = ? WHERE id = ?');
-        $stmt->execute([ $_POST['name'], $_POST['desc'], $_POST['price'], $_POST['quantity'], $_POST['main_image'], date('Y-m-d H:i:s', strtotime($_POST['date'])), $_GET['id'] ]);
+        // Update item
+        $stmt = $pdo->prepare('UPDATE items SET name = ?, `desc` = ?, price = ?, quantity = ?, img = ?, `time` = ?, date_added = ? WHERE id = ?');
+        $stmt->execute([ $_POST['name'], $_POST['desc'], $_POST['price'], $_POST['quantity'], $_POST['main_image'], $_POST['time'], date('Y-m-d H:i:s', strtotime($_POST['date'])), $_GET['id'] ]);
         addItemImages($pdo, $_GET['id']);
-        addItemRestaurants($pdo, $_GET['id'], $restaurant);
+        addItemRestaurants($pdo, $_GET['id'],$restaurant);
         addItemCategories($pdo, $_GET['id']);
         addItemOptions($pdo, $_GET['id']);
         header('Location: index.php?page=items');
         exit;
     }
     if (isset($_POST['delete'])) {
-        // Delete the item and its images, categories, options
+        // Delete item 
         $stmt = $pdo->prepare('DELETE i, ii, io, ic, ir FROM items i LEFT JOIN items_images ii ON ii.item_id = i.id LEFT JOIN items_options io ON io.item_id = i.id LEFT JOIN items_restaurants ir ON ir.item_id = i.id LEFT JOIN items_categories ic ON ic.item_id = i.id WHERE i.id = ?');
         $stmt->execute([ $_GET['id'] ]);
         header('Location: index.php?page=items');
         exit;
     }
 
-    // Get the item and its images from the database
+    // Get  item and images from the database
     $stmt = $pdo->prepare('SELECT i.*, GROUP_CONCAT(ii.img) AS imgs FROM items i LEFT JOIN items_images ii ON i.id = ii.item_id WHERE i.id = ? GROUP BY i.id');
     $stmt->execute([ $_GET['id'] ]);
     $item = $stmt->fetch(PDO::FETCH_ASSOC);
-    // Get the item restaurant
+    // Get  item restaurant
     $stmt = $pdo->prepare('SELECT r.name, r.id FROM items_restaurants ir JOIN restaurants r ON r.id = ir.restaurant_id WHERE ir.item_id = ?');
     $stmt->execute([ $_GET['id'] ]);
     $item['categories'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // Get the item categories
+    // Get  item categories
     $stmt = $pdo->prepare('SELECT c.name, c.id FROM items_categories ic JOIN categories c ON c.id = ic.category_id WHERE ic.item_id = ?');
     $stmt->execute([ $_GET['id'] ]);
     $item['categories'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // Get the item options
+    // Get  item options
     $stmt = $pdo->prepare('SELECT * FROM items_options WHERE item_id = ?');
     $stmt->execute([ $_GET['id'] ]);
     $item['options'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -134,11 +134,11 @@ if (isset($_GET['id'])) {
     }
     $item['options_string'] = rtrim($item['options_string'], ',');
 } else {
-    // Create a new item
+    // Create new item
     $page = 'Create';
     if (isset($_POST['submit'])) {
-        $stmt = $pdo->prepare('INSERT IGNORE INTO items (name,`desc`,price,quantity,img,date_added) VALUES (?,?,?,?,?,?)');
-        $stmt->execute([ $_POST['name'], $_POST['desc'], $_POST['price'], $_POST['quantity'], $_POST['main_image'], date('Y-m-d H:i:s', strtotime($_POST['date'])) ]);
+        $stmt = $pdo->prepare('INSERT IGNORE INTO items (name,`desc`,price,quantity,img,`time`,date_added) VALUES (?,?,?,?,?,?,?)');
+        $stmt->execute([ $_POST['name'], $_POST['desc'], $_POST['price'], $_POST['quantity'], $_POST['main_image'], $_POST['time'], date('Y-m-d H:i:s', strtotime($_POST['date'])) ]);
         $last_id = $pdo ->lastInsertId();
         addItemImages($pdo, $pdo->lastInsertId());
         addItemRestaurants($pdo, $last_id, $restaurant);
@@ -224,6 +224,8 @@ if (isset($_GET['id'])) {
             <input type="hidden" name="images_list" value="<?=$item['imgs']?>">
         </div>
 
+        <label for="time">Time</span></label>
+        <input type="number" name="time" placeholder="Minutes" min="1" value="<?=$item['time']?>" >
         <div>
             <label for="main_image">Main Image</label>
             <select name="main_image" id="main_image">

@@ -1,11 +1,10 @@
 <?php
 defined('admin') or exit;
-// Default input category values
 $category = array(
     'name' => ''
 );
 if (isset($_GET['id'])) {
-    // ID param exists, edit an existing category
+    // Edit an existing category
     $page = 'Edit';
     if (isset($_POST['submit'])) {
         // Update the category
@@ -21,7 +20,6 @@ if (isset($_GET['id'])) {
         header('Location: index.php?page=categories');
         exit;
     }
-    // Get the category from the database
     $stmt = $pdo->prepare('SELECT * FROM categories WHERE id = ?');
     $stmt->execute([ $_GET['id'] ]);
     $category = $stmt->fetch(PDO::FETCH_ASSOC);

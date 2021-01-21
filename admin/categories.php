@@ -1,6 +1,5 @@
 <?php
 defined('admin') or exit;
-// SQL query to get all categories from the "categories" table
 $stmt = $pdo->prepare('SELECT * FROM categories');
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);

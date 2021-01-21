@@ -1,6 +1,5 @@
 <?php
 defined('admin') or exit;
-// SQL query that will get all the accounts from the database ordered by the ID column
 $stmt = $pdo->prepare('SELECT * FROM accounts ORDER BY id DESC');
 $stmt->execute();
 $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,6 +23,7 @@ $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td>Name</td>
                     <td>Address</td>
                     <td>Admin</td>
+                    <td>Manager ID</td>
                 </tr>
             </thead>
             <tbody>
@@ -45,6 +45,7 @@ $accounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?=$account['address_country']?><br>
                     </td>
                     <td><?=$account['admin']==1?'true':'false'?></td>
+                    <td> <?=$account['rID']?></td>
                 </tr>
                 <?php endforeach; ?>
                 <?php endif; ?>

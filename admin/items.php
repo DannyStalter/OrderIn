@@ -1,6 +1,5 @@
 <?php
 defined('admin') or exit;
-// SQL query to get all items from the "items" table
 $stmt = $pdo->prepare('SELECT i.*, GROUP_CONCAT(ii.img) AS imgs FROM items i LEFT JOIN items_images ii ON i.id = ii.item_id GROUP BY i.id ORDER BY i.date_added ASC');
 $stmt->execute();
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);

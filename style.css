@@ -56,6 +56,16 @@ html header h1 {
   margin: 0;
   padding: 24px 0;
 }
+.site-name  {
+  font-family: Courier Bold, Courier, Georgia, Times, Times New Roman, serif;
+  text-decoration: none;
+  display: flex;
+  flex-grow: 1;
+  flex-basis: 0;
+  font-size: 20px;
+  margin: 0;
+  color: #f0ece2;
+}
 
 header nav {
   display: flex;
@@ -216,10 +226,6 @@ main .recentlyadded .items .item .price, main .items .items-wrapper .item .price
   color: black;
 }
 
-main .recentlyadded .items .item .rrp, main .items .items-wrapper .item .rrp {
-  color: #BBBBBB;
-  text-decoration: line-through;
-}
 
 main .recentlyadded .items .item:hover img, main .items .items-wrapper .item:hover img {
   border: 1px solid #291921;
@@ -268,12 +274,6 @@ main > .item .price {
   color: #f0ece2;
 }
 
-main > .item .rrp {
-  color: #BBBBBB;
-  text-decoration: line-through;
-  font-size: 22px;
-  padding-left: 5px;
-}
 
 main > .item form {
   display: flex;
@@ -572,25 +572,6 @@ main .checkout form .row2, main .myaccount form .row2 {
   padding-left: 10px;
 }
 
-main .checkout .paypal, main .myaccount .paypal {
-  padding-bottom: 40px;
-  width: 100%;
-}
-
-main .checkout .paypal button, main .myaccount .paypal button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px 7px 20px;
-  background-color: #FFC439;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  width: inherit;
-}
-
-main .checkout .paypal button:hover, main .myaccount .paypal button:hover {
-  background-color: #f3bb37;
-}
 
 main .myaccount form {
   width: 100%;

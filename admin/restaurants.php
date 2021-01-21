@@ -1,6 +1,6 @@
 <?php
 defined('admin') or exit;
-// SQL query to get all restaurants from the "restaurants" table
+
 $stmt = $pdo->prepare('SELECT * FROM restaurants');
 $stmt->execute();
 $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -1,15 +1,11 @@
 <?php
-// Prevent direct access to file
 defined('orderinsystem') or exit;
-// User clicked the "Login" button, proceed with the login process... check POST data and validate email
 if (isset($_POST['login'], $_POST['email'], $_POST['password']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     // Check if the account exists
     $stmt = $pdo->prepare('SELECT * FROM accounts WHERE email = ?');
     $stmt->execute([ $_POST['email'] ]);
     $account = $stmt->fetch(PDO::FETCH_ASSOC);
-    // If account exists verify password
     if ($account && password_verify($_POST['password'], $account['password'])) {
-        // User has logged in, create session data
         session_regenerate_id();
         $_SESSION['account_loggedin'] = TRUE;
         $_SESSION['account_id'] = $account['id'];
@@ -17,10 +13,8 @@ if (isset($_POST['login'], $_POST['email'], $_POST['password']) && filter_var($_
         $_SESSION['account_rID'] = $account['rID'];
         $items_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
         if ($items_in_cart) {
-            // user has items in cart, redirect them to the checkout page
             header('Location: index.php?page=checkout');
         } else {
-            // Redirect the user back to the same page, they can then see their order history
             header('Location: index.php?page=myaccount');
         }
         exit;
@@ -28,27 +22,23 @@ if (isset($_POST['login'], $_POST['email'], $_POST['password']) && filter_var($_
         $error = 'Incorrect Email/Password!';
     }
 }
-// Variable that will output registration errors
+
 $register_error = '';
-// User clicked the "Register" button, proceed with the registration process... check POST data and validate email
+// Registration
 if (isset($_POST['register'], $_POST['email'], $_POST['password'], $_POST['cpassword']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     // Check if the account exists
     $stmt = $pdo->prepare('SELECT * FROM accounts WHERE email = ?');
     $stmt->execute([ $_POST['email'] ]);
     $account = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($account) {
-        // Account exists!
         $register_error = 'Account already exists with this email!';
     } else if ($_POST['cpassword'] != $_POST['password']) {
         $register_error = 'Passwords do not match!';
     } else {
-        // Account doesnt exist, create new account
         $stmt = $pdo->prepare('INSERT INTO accounts (email, password, first_name, last_name, address_street, address_city, address_state, address_zip, address_country) VALUES (?,?,"","","","","","","")');
-        // Hash the password
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $stmt->execute([ $_POST['email'], $password ]);
         $account_id = $pdo->lastInsertId();
-        // Automatically login the user
         session_regenerate_id();
         $_SESSION['account_loggedin'] = TRUE;
         $_SESSION['account_id'] = $account_id;
@@ -56,22 +46,21 @@ if (isset($_POST['register'], $_POST['email'], $_POST['password'], $_POST['cpass
         $_SESSION['account_rID'] = 0;
         $items_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
         if ($items_in_cart) {
-            // User has items in cart, redirect them to the checkout page
             header('Location: index.php?page=checkout');
         } else {
-            // Redirect the user back to the same page, they can then see their order history
             header('Location: index.php?page=myaccount');
         }
         exit;
     }
 }
-// If user is logged in
+
 if (isset($_SESSION['account_loggedin'])) {
-    // Select all the users transations, this will appear under "My Orders"
     $stmt = $pdo->prepare('SELECT
         i.img AS img,
         i.name AS name,
         t.created AS transaction_date,
+        i.time AS `time`,
+        t.payment_status AS status,
         ti.item_price AS price,
         ti.item_quantity AS quantity
         FROM transactions t
@@ -114,7 +103,7 @@ if (isset($_SESSION['account_loggedin'])) {
         <div class="register">
 
             <h1>Register</h1>
-
+               
             <form action="index.php?page=myaccount" method="post">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="name@example.com" required>
@@ -144,6 +133,8 @@ if (isset($_SESSION['account_loggedin'])) {
             <tr>
                 <td colspan="2">Item</td>
                 <td class="rhide">Date</td>
+                <td>ETA</td>
+                <td>Status</td>
                 <td class="rhide">Price</td>
                 <td>Quantity</td>
                 <td>Total</td>
@@ -152,7 +143,7 @@ if (isset($_SESSION['account_loggedin'])) {
         <tbody>
             <?php if (empty($transactions)): ?>
             <tr>
-                <td colspan="6" style="text-align:center;">You have no recent orders</td>
+                <td colspan="8" style="text-align:center;">You have no recent orders</td>
             </tr>
             <?php else: ?>
             <?php foreach ($transactions as $transaction): ?>
@@ -164,6 +155,8 @@ if (isset($_SESSION['account_loggedin'])) {
                 </td>
                 <td><?=$transaction['name']?></td>
                 <td class="rhide"><?=$transaction['transaction_date']?></td>
+                <td class="time"><?=$transaction['time']?></td>
+                <td class="status"><?=$transaction['status']?></td>
                 <td class="price rhide"><?=currency_code?><?=number_format($transaction['price'],2)?></td>
                 <td class="quantity"><?=$transaction['quantity']?></td>
                 <td class="price"><?=currency_code?><?=number_format($transaction['price'] * $transaction['quantity'],2)?></td>

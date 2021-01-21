@@ -1,7 +1,6 @@
 <?php
-// Prevent direct access to file
+
 defined('orderinsystem') or exit;
-// Remove all the items in cart, no longer needed as the order has been processed
 unset($_SESSION['cart']);
 ?>
 <?=template_header('Place Order')?>
@@ -11,7 +10,7 @@ unset($_SESSION['cart']);
 <?php else: ?>
 <div class="placeorder content-wrapper">
     <h1>Your Order Has Been Placed</h1>
-    <p>Thank you for ordering with us, we'll contact you by email with your order details.</p>
+    <p>Thank you for ordering with us, if you have an account with us, your order details will be in the My Account section.</p>
 </div>
 <?php endif; ?>
 

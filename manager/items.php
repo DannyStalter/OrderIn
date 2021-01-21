@@ -1,6 +1,6 @@
 <?php
 defined('admin') or exit;
-// SQL query to get all items from the "items" table
+
 $restaurant = isset($_SESSION['account_rID']) ? $_SESSION['account_rID'] : '';
 $stmt = $pdo->prepare('SELECT i.*, GROUP_CONCAT(ii.img) AS imgs FROM items i LEFT JOIN items_images ii ON i.id = ii.item_id JOIN items_restaurants ir ON ir.restaurant_id = :restaurant_id AND ir.item_id = i.id JOIN restaurants r ON r.id = ir.restaurant_id GROUP BY i.id ORDER BY i.date_added ASC');
 $stmt->bindValue(':restaurant_id', $restaurant, PDO::PARAM_INT);
@@ -26,6 +26,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td>Price</td>
                     <td>Quantity</td>
                     <td class="responsive-hidden">Images</td>
+                    <td>Time</td>
                     <td class="responsive-hidden">Created</td>
                 </tr>
             </thead>
@@ -46,6 +47,7 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <img src="../imgs/<?=$img?>" width="32" height="32" alt="<?=$img?>">
                         <?php endforeach; ?>
                     </td>
+                    <td><?=$item['time']?></td>
                     <td class="responsive-hidden"><?=date('F j, Y', strtotime($item['date_added']))?></td>
                 </tr>
                 <?php endforeach; ?>

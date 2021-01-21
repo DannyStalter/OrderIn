@@ -1,7 +1,6 @@
 <?php
 defined('admin') or exit;
 
-// SQL query that will get all orders and sort by the date created
 $stmt = $pdo->prepare('SELECT
     i.img AS img,
     i.name AS name,

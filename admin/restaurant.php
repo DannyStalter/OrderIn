@@ -1,11 +1,9 @@
 <?php
 defined('admin') or exit;
-// Default input restaurant values
 $restaurant = array(
     'name' => ''
 );
 if (isset($_GET['id'])) {
-    // ID param exists, edit an existing restaurant
     $page = 'Edit';
     if (isset($_POST['submit'])) {
         // Update the restaurant

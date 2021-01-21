@@ -1,7 +1,8 @@
 <?php
 defined('admin') or exit;
 
-// SQL query that will get all orders and sort by the date created
+$restaurant = isset($_SESSION['account_rID']) ? $_SESSION['account_rID'] : '';
+
 $stmt = $pdo->prepare('SELECT
     i.img AS img,
     i.name AS name,
@@ -10,14 +11,12 @@ $stmt = $pdo->prepare('SELECT
     ti.item_quantity AS quantity,
     ti.item_options AS options
     FROM transactions t
-    JOIN transactions_items ti ON ti.txn_id = t.txn_id
-    JOIN items i ON i.id = ti.item_id
-    JOIN items_restaurants ir ON ir.restaurant_id = :restaurant_id AND ir.item_id = i.id JOIN restaurants r ON r.id = ir.restaurant_id
+    JOIN transactions_items ti ON ti.txn_id = t.txn_id 
+    JOIN items i ON i.id = ti.item_id 
+    JOIN items_restaurants ir ON ir.item_id = i.id 
+    JOIN restaurants r ON r.id = ir.restaurant_id AND r.id = :restaurant_id
     ORDER BY t.created DESC');
-
-$restaurant = isset($_SESSION['account_rID']) ? $_SESSION['account_rID'] : '';
 $stmt->bindValue(':restaurant_id', $restaurant, PDO::PARAM_INT);
-
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -114,7 +113,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tbody>
         </table>
         <script>
-        document.querySelectorAll(".admin .details").forEach(function(detail) {
+        document.querySelectorAll(".manager .details").forEach(function(detail) {
             detail.onclick = function() {
                 let display = this.nextElementSibling.style.display == 'table-row' ? 'none' : 'table-row';
                 this.nextElementSibling.style.display = display;
